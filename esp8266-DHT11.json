@@ -1,0 +1,332 @@
+[
+    {
+        "id": "3e77d543.c1882a",
+        "type": "ibmiot in",
+        "z": "fb82cc47.4f7d3",
+        "authentication": "boundService",
+        "apiKey": "",
+        "inputType": "evt",
+        "deviceId": "",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT App In",
+        "service": "registered",
+        "allDevices": false,
+        "allApplications": false,
+        "allDeviceTypes": true,
+        "allEvents": true,
+        "allCommands": false,
+        "allFormats": false,
+        "qos": "0",
+        "x": 125,
+        "y": 169,
+        "wires": [
+            [
+                "ae0082ac.51ff8",
+                "f4653e05.accc6"
+            ]
+        ]
+    },
+    {
+        "id": "ae0082ac.51ff8",
+        "type": "function",
+        "z": "fb82cc47.4f7d3",
+        "name": "TempF",
+        "func": "return {payload:msg.payload.d.TempF};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 332,
+        "y": 171,
+        "wires": [
+            [
+                "ff6ad0d9.00953"
+            ]
+        ]
+    },
+    {
+        "id": "ff6ad0d9.00953",
+        "type": "switch",
+        "z": "fb82cc47.4f7d3",
+        "name": "temp thresh",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lte",
+                "v": "77",
+                "vt": "str"
+            },
+            {
+                "t": "gt",
+                "v": "77",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 495,
+        "y": 161,
+        "wires": [
+            [
+                "80621eff.7f9de"
+            ],
+            [
+                "8e1706a.f71e8f8"
+            ]
+        ]
+    },
+    {
+        "id": "80621eff.7f9de",
+        "type": "template",
+        "z": "fb82cc47.4f7d3",
+        "name": "cold",
+        "field": "payload",
+        "fieldType": "msg",
+        "syntax": "mustache",
+        "template": "Temperature {{payload}} cold",
+        "x": 665,
+        "y": 125,
+        "wires": [
+            [
+                "c697dcc7.e2c7a",
+                "ecd7336e.b493"
+            ]
+        ]
+    },
+    {
+        "id": "8e1706a.f71e8f8",
+        "type": "template",
+        "z": "fb82cc47.4f7d3",
+        "name": "warm",
+        "field": "payload",
+        "fieldType": "msg",
+        "syntax": "mustache",
+        "template": "Temperature ({{payload}}) warm",
+        "x": 662,
+        "y": 198,
+        "wires": [
+            [
+                "c697dcc7.e2c7a",
+                "ecd7336e.b493"
+            ]
+        ]
+    },
+    {
+        "id": "7926c7b2.86d938",
+        "type": "comment",
+        "z": "fb82cc47.4f7d3",
+        "name": "Temperature Monitor",
+        "info": "",
+        "x": 135,
+        "y": 85,
+        "wires": []
+    },
+    {
+        "id": "c697dcc7.e2c7a",
+        "type": "ibmiot out",
+        "z": "fb82cc47.4f7d3",
+        "authentication": "boundService",
+        "apiKey": "",
+        "outputType": "cmd",
+        "deviceId": "esp8266-1",
+        "deviceType": "esp8266",
+        "eventCommandType": "status",
+        "format": "String",
+        "data": "ok",
+        "qos": 0,
+        "name": "IBM IoT",
+        "service": "registered",
+        "x": 942,
+        "y": 242,
+        "wires": []
+    },
+    {
+        "id": "490e5463.0fbe1c",
+        "type": "cloudant out",
+        "z": "fb82cc47.4f7d3",
+        "name": "temp",
+        "cloudant": "",
+        "database": "temp",
+        "service": "myfirstiot-djaramil-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 679,
+        "y": 405.25,
+        "wires": []
+    },
+    {
+        "id": "e80bb1fe.936b88",
+        "type": "ibmiot in",
+        "z": "fb82cc47.4f7d3",
+        "authentication": "quickstart",
+        "apiKey": "",
+        "inputType": "evt",
+        "deviceId": "eb9ac7763784",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "quickstart",
+        "allDevices": "",
+        "allApplications": "",
+        "allDeviceTypes": true,
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 107,
+        "y": 271.25,
+        "wires": [
+            [
+                "5df91317.96ce44"
+            ]
+        ]
+    },
+    {
+        "id": "5df91317.96ce44",
+        "type": "debug",
+        "z": "fb82cc47.4f7d3",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 485,
+        "y": 445.5,
+        "wires": []
+    },
+    {
+        "id": "ecd7336e.b493",
+        "type": "debug",
+        "z": "fb82cc47.4f7d3",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 922,
+        "y": 136,
+        "wires": []
+    },
+    {
+        "id": "6fdba179.06162",
+        "type": "cloudant in",
+        "z": "fb82cc47.4f7d3",
+        "name": "currtemp",
+        "cloudant": "",
+        "database": "temp",
+        "service": "myfirstiot-djaramil-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "createdAt",
+        "index": "createdAt",
+        "x": 441,
+        "y": 614,
+        "wires": [
+            [
+                "946e4178.fa101",
+                "b1f1cac0.b389e8"
+            ]
+        ]
+    },
+    {
+        "id": "9fbe2da4.37621",
+        "type": "http in",
+        "z": "fb82cc47.4f7d3",
+        "name": "",
+        "url": "/currtemp",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 181,
+        "y": 470,
+        "wires": [
+            [
+                "a7e4888c.b3d388"
+            ]
+        ]
+    },
+    {
+        "id": "b1f1cac0.b389e8",
+        "type": "debug",
+        "z": "fb82cc47.4f7d3",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 730,
+        "y": 614,
+        "wires": []
+    },
+    {
+        "id": "946e4178.fa101",
+        "type": "function",
+        "z": "fb82cc47.4f7d3",
+        "name": "temp",
+        "func": "var firstObj = msg.payload[msg.payload.length-1];\n\nnode.log(\"Log\", msg.payload.length);\n\nmsg.payload=JSON.stringify({\n     \"currTemp\": firstObj.d\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 654,
+        "y": 557,
+        "wires": [
+            [
+                "ca67684b.a49478"
+            ]
+        ]
+    },
+    {
+        "id": "ca67684b.a49478",
+        "type": "http response",
+        "z": "fb82cc47.4f7d3",
+        "name": "",
+        "x": 881,
+        "y": 513,
+        "wires": []
+    },
+    {
+        "id": "f4653e05.accc6",
+        "type": "function",
+        "z": "fb82cc47.4f7d3",
+        "name": "AddDateTime",
+        "func": "\nmsg.payload.d.created_at=new Date();\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 438,
+        "y": 279,
+        "wires": [
+            [
+                "490e5463.0fbe1c",
+                "7e66cd8b.6eb2a4"
+            ]
+        ]
+    },
+    {
+        "id": "7e66cd8b.6eb2a4",
+        "type": "debug",
+        "z": "fb82cc47.4f7d3",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 716,
+        "y": 293,
+        "wires": []
+    },
+    {
+        "id": "a7e4888c.b3d388",
+        "type": "function",
+        "z": "fb82cc47.4f7d3",
+        "name": "getTemp",
+        "func": "msg.payload={ \n \"selector\": {\n   \"$not\": {\n     \"d.created_at\": null\n   }\n },\n \"fields\": [\n   \"d\"\n ],\n \"sort\":[\n     {\"d.created_at\":\"desc\"}\n   ],\n\"limit\":2\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 323,
+        "y": 536,
+        "wires": [
+            [
+                "6fdba179.06162"
+            ]
+        ]
+    }
+]
